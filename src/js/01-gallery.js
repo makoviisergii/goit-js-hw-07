@@ -1,8 +1,6 @@
 import { galleryItems } from "./gallery-items.js";
 // Change code below this line
 
-console.log(galleryItems);
-
 const list = document.querySelector("div.gallery");
 const galleryArr = galleryItems
   .map(
@@ -19,47 +17,29 @@ const galleryArr = galleryItems
 </div>`
   )
   .join("");
+
 list.insertAdjacentHTML("beforeend", galleryArr);
 
-// Переделать
+list.addEventListener("click", openOrigImag);
 
-// const modalText = document.querySelector(".modal-text");
-// const button = document.querySelector("button");
-// const backdrop = document.querySelector(".backdrop");
+function openOrigImag(event) {
+  event.preventDefault();
+  let ImagSource;
+  if (event.target.nodeName === "IMG") {
+    ImagSource = event.target.dataset.source;
+  } else {
+    return;
+  }
 
-// list.addEventListener("click", openModal);
+  const instance = basicLightbox.create(`
+    <img src="${ImagSource}" width="800" height="600">  
+`);
+  instance.show();
+  list.addEventListener("keydown", closeByEsc);
 
-// function openModal({ target }) {
-//   let content;
-//   if (target.nodeName === "P") {
-//     content = target.textContent;
-//   } else if (target.nodeName === "LI") {
-//     content = target.firstElementChild.textContent;
-//   } else {
-//     return;
-//   }
-
-//   modalText.textContent = content;
-//   backdrop.classList.add("open");
-
-//   window.addEventListener("keydown", closeByEsc);
-// }
-
-// button.addEventListener("click", closeModal);
-// backdrop.addEventListener("click", (event) => {
-//   if (event.target === event.currentTarget) {
-//     closeModal();
-//   }
-// });
-
-// function closeModal() {
-//   modalText.textContent = "";
-//   backdrop.classList.remove("open");
-//   window.removeEventListener("keydown", closeByEsc);
-// }
-
-// function closeByEsc({ code }) {
-//   if (code === "Escape") {
-//     closeModal();
-//   }
-// }
+  function closeByEsc(e) {
+    if (e.key === "Escape") {
+      instance.close();
+    }
+  }
+}
