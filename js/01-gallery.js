@@ -20,9 +20,9 @@ const galleryArr = galleryItems
 
 list.insertAdjacentHTML("beforeend", galleryArr);
 
-list.addEventListener("click", openOrigImag);
+list.addEventListener("click", openOriginalImg);
 
-function openOrigImag(event) {
+function openOriginalImg(event) {
   event.preventDefault();
   let ImagSource;
   if (event.target.nodeName === "IMG") {
@@ -40,6 +40,7 @@ function openOrigImag(event) {
   function closeByEsc(e) {
     if (e.key === "Escape") {
       instance.close();
+      list.removeEventListener("keydown", closeByEsc);
     }
   }
 }
